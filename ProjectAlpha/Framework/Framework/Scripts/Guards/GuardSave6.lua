@@ -1,0 +1,36 @@
+Guard = {
+InformationComponent = {
+name = "Guard",
+position = {14,4},
+direction = {1,0,0},
+rotation = {90,0,0},
+type = "NPC",
+},
+GraphicsComponent = {
+meshType = "Quad",
+meshName = "Guard Mesh",
+meshImage = "Images//guard.tga",
+meshSize = 32,
+meshColor = {1, 1, 1},
+meshAlpha = 1,
+},
+AIComponent = {
+aiState = "Patrol",
+aiType = "Guard",
+aiDifficulty = "Normal",
+aiSightLength = 0,
+},
+WaypointComponent = {
+numberOfPoints = 10,
+point2 = {14,4},
+point3 = {17,4},
+point4 = {17,6},
+point5 = {10,6},
+point6 = {17,6},
+point7 = {17,4},
+point8 = {14,4},
+point9 = {14,2},
+point10 = {17,2},
+point1 = {14,2},
+},
+}
