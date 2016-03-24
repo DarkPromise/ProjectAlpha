@@ -73,11 +73,6 @@ void StateHandler::HandleEvents()
 	m_stateList.back()->HandleEvents(this);
 }
 
-void StateHandler::HandleEvents(const int key, bool status)
-{
-	m_stateList.back()->HandleEvents(this, key, status);
-}
-
 void StateHandler::Cleanup()
 {
 	while (!m_stateList.empty())

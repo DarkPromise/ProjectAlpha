@@ -25,7 +25,6 @@ public:
 	virtual void Pause() = 0;
 	virtual void Resume() = 0;
 	virtual void HandleEvents(StateHandler * stateHandler) = 0;
-	virtual void HandleEvents(StateHandler * stateHandler, const int key, const bool status = true) = 0;
 	virtual void Draw(StateHandler * stateHandler) = 0;
 
 	std::string toString()

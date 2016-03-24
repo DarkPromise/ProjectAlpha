@@ -31,11 +31,6 @@ void StateGame::HandleEvents(StateHandler * stateHandler)
 	
 }
 
-void StateGame::HandleEvents(StateHandler * stateHandler, const int key, const bool status)
-{
-	// This Function is Obsolete
-}
-
 void StateGame::Cleanup()
 {
 	

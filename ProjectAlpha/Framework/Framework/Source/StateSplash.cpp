@@ -56,11 +56,6 @@ void StateSplash::HandleEvents(StateHandler * stateHandler)
 
 }
 
-void StateSplash::HandleEvents(StateHandler * stateHandler, const int key, const bool status)
-{
-
-}
-
 void StateSplash::Cleanup()
 {
 	if (!m_meshList.empty())

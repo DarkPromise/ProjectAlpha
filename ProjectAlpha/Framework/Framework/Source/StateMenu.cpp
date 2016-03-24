@@ -88,11 +88,6 @@ void StateMenu::HandleEvents(StateHandler * stateHandler)
 
 }
 
-void StateMenu::HandleEvents(StateHandler * stateHandler, const int key, const bool status)
-{
-
-}
-
 void StateMenu::Cleanup()
 {
 	if (!m_guiList.empty())

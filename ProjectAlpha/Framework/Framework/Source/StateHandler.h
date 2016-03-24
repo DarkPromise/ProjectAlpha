@@ -17,7 +17,6 @@ public:
 	virtual void PushState(State * state);
 	virtual void PopState();
 	virtual void HandleEvents();
-	virtual void HandleEvents(const int key, const bool status = true);
 	virtual void Cleanup();
 	virtual void Draw();
 	virtual void Update(double m_dElaspedTime);

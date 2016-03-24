@@ -25,7 +25,6 @@ public:
 	void Pause();
 	void Resume();
 	void HandleEvents(StateHandler * stateHandler);
-	void HandleEvents(StateHandler * stateHandler, const int key, const bool status = true);
 	void Draw(StateHandler * stateHandler);
 
 	// Rendering Functions
