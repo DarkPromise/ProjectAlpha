@@ -1,30 +1,22 @@
-#ifndef STATE_AGDEV_GAME_H
-#define STATE_AGDEV_GAME_H
+#ifndef STATE_GAME_H	
+#define STATE_GAME_H
 
 #include "State.h"
 #include <string>
 #include "MeshBuilder.h"
 
 #include "Camera.h"
-#include "EntityPlayer.h"
-#include "EntityNPC.h"
-#include "EntityWorldObject.h"
-
 #include "LuaReader.h"
 
-class Tree;
-
-#define SPAWN_LIMIT 100
-
-class StateAGDevGame : public State
+class StateGame : public State
 {
 public:
-	StateAGDevGame(std::string name, View * theView, int Level = 1) : State(name, theView)
+	StateGame(std::string name, View * theView, int Level = 1) : State(name, theView)
 	{ 
 		this->theView = theView; 
 		m_bStartFadeOut = false;
 	}
-	~StateAGDevGame();
+	~StateGame();
 
 	State * getInstance();
 	void Init();
@@ -47,17 +39,8 @@ public:
 
 	// Fade Effect
 	void FadeOutEffect(double dt);
-
-	// Octree
-	Tree * tree;
-	
-	// Entity Spawning
-	void SpawnNPCs();
 private:
-	static StateAGDevGame theGameState;
-
 	Camera * theCamera;
-	Entity * thePlayer;
 
 	std::vector<Mesh*> m_meshList;
 	std::vector<Entity*> m_entityList;

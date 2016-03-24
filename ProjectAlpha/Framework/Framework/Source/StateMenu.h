@@ -11,17 +11,13 @@ class StateMenu : public State
 public:
 	enum MENU_BUTTONS
 	{
-		NEWGAME_BUTTON,
-		LOADGAME_BUTTON,
-		LEVELSELECT_BUTTON,
+
 	};
 
-	StateMenu(std::string name, View * theView)
-		: State(name, theView)
-		, gameType(1)
-		, runOnce(false)
+	StateMenu(std::string name, View * theView, bool alpha) : State(name, theView)
 	{
 		this->theView = theView;
+		this->alpha = alpha;
 	}
 	~StateMenu();
 
@@ -43,7 +39,6 @@ public:
 	// Rendering Functions
 	void RenderBackground();
 	void RenderButtons();
-
 private:
 	View * theView;
 	std::vector<Mesh*> m_meshList;
@@ -53,8 +48,8 @@ private:
 	double m_dFadeDelay;
 	bool m_bStartFadeIn;
 	bool m_bStartFadeOut;
-	int gameType;
-	bool runOnce;
+	bool alpha;
+	static bool runOnce;
 };
 
 #endif

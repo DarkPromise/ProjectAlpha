@@ -108,9 +108,6 @@
     <Filter Include="Source Files\Camera">
       <UniqueIdentifier>{224cf98d-6e9a-4390-a360-9484be440f0f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\State Handling\Game States\AGDev Assignment">
-      <UniqueIdentifier>{674cb417-97b2-48b4-98de-0681cbd95937}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Scene Handling %28Not Touching%29">
       <UniqueIdentifier>{4a2465a3-16ca-4447-9640-f65e7ff59f26}</UniqueIdentifier>
     </Filter>
@@ -290,40 +287,16 @@
     <ClCompile Include="Source\AStar.cpp">
       <Filter>Source Files\Pathfinding</Filter>
     </ClCompile>
-    <ClCompile Include="Source\StateAGDevGame.cpp">
-      <Filter>Source Files\State Handling\Game States</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\StateAGDevHighscore.cpp">
-      <Filter>Source Files\State Handling\Game States</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\StateAGDevInstructions.cpp">
-      <Filter>Source Files\State Handling\Game States</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\StateAGDevMenu.cpp">
-      <Filter>Source Files\State Handling\Game States</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\StateAGDevOptions.cpp">
-      <Filter>Source Files\State Handling\Game States</Filter>
-    </ClCompile>
     <ClCompile Include="Source\StateSplash.cpp">
-      <Filter>Source Files\State Handling\Game States</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\StateCredits.cpp">
-      <Filter>Source Files\State Handling\Game States</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\StateGameOver.cpp">
       <Filter>Source Files\State Handling\Game States</Filter>
     </ClCompile>
     <ClCompile Include="Source\StateHandler.cpp">
       <Filter>Source Files\State Handling\Game States</Filter>
     </ClCompile>
-    <ClCompile Include="Source\StateLevelSelect.cpp">
+    <ClCompile Include="Source\StateGame.cpp">
       <Filter>Source Files\State Handling\Game States</Filter>
     </ClCompile>
     <ClCompile Include="Source\StateMenu.cpp">
-      <Filter>Source Files\State Handling\Game States</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\StateTest.cpp">
       <Filter>Source Files\State Handling\Game States</Filter>
     </ClCompile>
   </ItemGroup>
@@ -394,9 +367,6 @@
     <ClInclude Include="Source\EntityTest.h">
       <Filter>Header Files\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="Source\StateTest.h">
-      <Filter>Header Files\State Handling</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Gui.h">
       <Filter>Header Files\Gui</Filter>
     </ClInclude>
@@ -448,12 +418,6 @@
     <ClInclude Include="Source\EntityPlayer.h">
       <Filter>Header Files\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="Source\StateAGDevMenu.h">
-      <Filter>Header Files\State Handling\Game States\AGDev Assignment</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\StateAGDevGame.h">
-      <Filter>Header Files\State Handling\Game States\AGDev Assignment</Filter>
-    </ClInclude>
     <ClInclude Include="Source\CollisionComponent.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
@@ -468,15 +432,6 @@
     </ClInclude>
     <ClInclude Include="Source\EntityNPC.h">
       <Filter>Header Files\Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\StateAGDevInstructions.h">
-      <Filter>Header Files\State Handling\Game States\AGDev Assignment</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\StateAGDevHighscore.h">
-      <Filter>Header Files\State Handling\Game States\AGDev Assignment</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\StateAGDevOptions.h">
-      <Filter>Header Files\State Handling\Game States\AGDev Assignment</Filter>
     </ClInclude>
     <ClInclude Include="Source\GridMap.h">
       <Filter>Header Files\2D Grid Map</Filter>
@@ -493,29 +448,23 @@
     <ClInclude Include="Source\Timing.h">
       <Filter>Header Files\Highscore</Filter>
     </ClInclude>
-    <ClInclude Include="Source\StateCredits.h">
-      <Filter>Header Files\State Handling</Filter>
-    </ClInclude>
     <ClInclude Include="Source\EntityGridObject.h">
       <Filter>Header Files\Entity</Filter>
     </ClInclude>
     <ClInclude Include="Source\ControllerComponent.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Source\StateMenu.h">
-      <Filter>Header Files\State Handling</Filter>
-    </ClInclude>
     <ClInclude Include="Source\GameplayComponent.h">
       <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\StateGameOver.h">
-      <Filter>Header Files\State Handling</Filter>
     </ClInclude>
     <ClInclude Include="Source\AStar.h">
       <Filter>Header Files\Pathfinding</Filter>
     </ClInclude>
-    <ClInclude Include="Source\StateLevelSelect.h">
-      <Filter>Header Files\State Handling</Filter>
+    <ClInclude Include="Source\StateMenu.h">
+      <Filter>Header Files\State Handling\Game States</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\StateGame.h">
+      <Filter>Header Files\State Handling\Game States</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

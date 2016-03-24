@@ -1,7 +1,6 @@
 #include "StateSplash.h"
 #include "View.h"
-#include "StateAGDevMenu.h"
-#include "StateTest.h"
+#include "StateMenu.h"
 #include "SoundManager.h"
 
 StateSplash::~StateSplash()
@@ -88,7 +87,7 @@ void StateSplash::Resume()
 void StateSplash::Draw(StateHandler * stateHandler)
 {
 	RenderBackground();
-	theView->Render2DMesh(m_meshList[1], false, false, 512.f * ((float)theView->getWindowWidth() / theView->getWindowHeight()), 512.f * ((float)theView->getWindowWidth() / theView->getWindowHeight()), (float)theView->getWindowWidth() * 0.5f, (float)theView->getWindowHeight() * 0.5f);
+	//theView->Render2DMesh(m_meshList[1], false, false, 512.f * ((float)theView->getWindowWidth() / theView->getWindowHeight()), 512.f * ((float)theView->getWindowWidth() / theView->getWindowHeight()), (float)theView->getWindowWidth() * 0.5f, (float)theView->getWindowHeight() * 0.5f);
 	theView->SwapBuffers();
 }
 
@@ -107,6 +106,6 @@ void StateSplash::FadeOutEffect(double dt, StateHandler * stateHandler)
 	
 	if (m_meshList[0]->alpha < 0.f)
 	{
-		stateHandler->ChangeState(new StateAGDevMenu("Menu State", theView, true));
+		stateHandler->ChangeState(new StateMenu("Menu State", theView, true));
 	}
 }

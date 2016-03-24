@@ -1,6 +1,5 @@
 #include "Controller.h"
 
-#include "StateTest.h"
 #include "StateSplash.h"
 
 Controller::Controller(Model * theModel, View * theView)
