@@ -2,19 +2,24 @@
 #include "View.h"
 #include "CharBuffer.h"
 
+bool InputHandler::m_pressedKeys[348];
+bool InputHandler::m_triggeredKeys[348];
+bool InputHandler::m_repeatedKeys[348];
+
+double InputHandler::mX = 0.0;
+double InputHandler::mY = 0.0;
+double InputHandler::dX = 0.0;
+double InputHandler::dY = 0.0;
+double InputHandler::last_x = 0.0;
+double InputHandler::last_y = 0.0;
+double InputHandler::dScroll = 0.0;
+
+bool InputHandler::m_bMouseEnabled = true;
+bool InputHandler::m_bKeyboardEnabled = true;
+double InputHandler::m_dClickDelay = 0.0;
+double InputHandler::m_dPressDelay = 0.0;
+
 InputHandler::InputHandler()
-: mX(0.0)
-, mY(0.0)
-, dX(0.0)
-, dY(0.0)
-, last_x(0.0)
-, last_y(0.0)
-, dScroll(0.0)
-, m_bMouseEnabled(true)
-, m_bKeyboardEnabled(true)
-, m_dClickDelay(0.0)
-, m_dPressDelay(0.0)
-, m_bBufferMode(false)
 {
 	std::cout << "InputHandler Created" << std::endl;
 
@@ -26,131 +31,24 @@ InputHandler::InputHandler()
 	}
 }
 
-InputHandler::~InputHandler()
-{
-	if (!m_charBufferList.empty())
-	{
-		for (int i = 0; i < m_charBufferList.size(); i++)
-		{
-			delete m_charBufferList[i];
-		}
-	}
-	m_charBufferList.clear();
-	m_charBufferList.~vector();
-}
-
 void InputHandler::Key_Callback(int key, int scancode, int action, int mods)
 {
 	if (m_bKeyboardEnabled)
 	{
 		if (action == GLFW_PRESS)
 		{
-			if (m_bBufferMode)
-			{
-				if (key == GLFW_KEY_BACKSPACE)
-				{
-					for (int i = 0; i < m_charBufferList.size(); i++)
-					{
-						if (m_charBufferList[i]->getSelected())
-						{
-							this->m_charBufferList[i]->removeFromBuffer();
-						}
-					}
-				}
-				else if (key == GLFW_KEY_ENTER)
-				{
-					PressKey(key);
-				}
-			}
-			else
 			{
 				PressKey(key);
 			}
 		}
 		else if (action == GLFW_RELEASE)
 		{
-			if (m_bBufferMode)
-			{
-				if (((key >= GLFW_KEY_A) && (key <= GLFW_KEY_Z)) ||
-					((key >= GLFW_KEY_0) && (key <= GLFW_KEY_9)) ||
-					((key == GLFW_KEY_PERIOD)))
-				{
-					if (mods == GLFW_MOD_SHIFT)
-					{
-						for (int i = 0; i < m_charBufferList.size(); i++)
-						{
-							if (m_charBufferList[i]->getSelected())
-							{
-								this->m_charBufferList[i]->addToBuffer((char)key);
-							}
-						}
-					}
-					else
-					{
-						for (int i = 0; i < m_charBufferList.size(); i++)
-						{
-							if (m_charBufferList[i]->getSelected())
-							{
-								this->m_charBufferList[i]->addToBuffer(tolower((char)key));
-							}
-						}
-					}
-				}
-				else if (key == GLFW_KEY_ENTER)
-				{
-					PressKey(key, false);
-				}
-			}
-			else
 			{
 				PressKey(key, false);
 			}
 		}
 		else if (action == GLFW_REPEAT)
 		{
-			if (m_bBufferMode)
-			{
-				if (((key >= GLFW_KEY_A) && (key <= GLFW_KEY_Z)) ||
-					((key >= GLFW_KEY_0) && (key <= GLFW_KEY_9)) ||
-					((key == GLFW_KEY_PERIOD)))
-				{
-					if (mods == GLFW_MOD_SHIFT)
-					{
-						for (int i = 0; i < m_charBufferList.size(); i++)
-						{
-							if (m_charBufferList[i]->getSelected())
-							{
-								this->m_charBufferList[i]->addToBuffer((char)key);
-							}
-						}
-					}
-					else
-					{
-						for (int i = 0; i < m_charBufferList.size(); i++)
-						{
-							if (m_charBufferList[i]->getSelected())
-							{
-								this->m_charBufferList[i]->addToBuffer(tolower((char)key));
-							}
-						}
-					}
-				}
-				else if (key == GLFW_KEY_BACKSPACE)
-				{
-					for (int i = 0; i < m_charBufferList.size(); i++)
-					{
-						if (m_charBufferList[i]->getSelected())
-						{
-							this->m_charBufferList[i]->removeFromBuffer();
-						}
-					}
-				}
-				else if (key == GLFW_KEY_ENTER)
-				{
-					PressKey(key);
-				}
-			}
-			else
 			{
 				PressKey(key);
 			}
@@ -160,6 +58,7 @@ void InputHandler::Key_Callback(int key, int scancode, int action, int mods)
 
 void InputHandler::Mouse_Callback(int button, int action, int mods)
 {
+	std::cout << "Called MouseCallback" << std::endl;
 	if (m_bMouseEnabled)
 	{
 		if (action == GLFW_PRESS)
@@ -230,11 +129,11 @@ void InputHandler::MouseUpdate(View * theView, double dt)
 	float screenXmid = (float)theView->getWindowWidth() * 0.5f;
 	float screenYmid = (float)theView->getWindowHeight() * 0.5f;
 
-	this->dX = (screenXmid - this->mX);
-	this->dY = (screenYmid - (ceil)(this->mY));
+	dX = (screenXmid - mX);
+	dY = (screenYmid - (ceil)(mY));
 
-	this->dX *= 0.15;
-	this->dY *= 0.15;
+	dX *= 0.15;
+	dY *= 0.15;
 
 	if (m_bMouseEnabled == false)
 	{
@@ -247,17 +146,17 @@ void InputHandler::MouseUpdate(View * theView, double dt)
 	}
 }
 
-bool InputHandler::IsKeyPressed(int key) const
+bool InputHandler::IsKeyPressed(int key)
 {
 	return m_pressedKeys[key];
 }
 
-bool InputHandler::IsKeyTriggered(int key) const
+bool InputHandler::IsKeyTriggered(int key)
 {
 	return m_triggeredKeys[key];
 }
 
-bool InputHandler::IsKeyRepeating(int key) const
+bool InputHandler::IsKeyRepeating(int key) 
 {
 	return m_repeatedKeys[key];
 }
@@ -269,42 +168,42 @@ bool InputHandler::isKeyboardEnabled()
 
 void InputHandler::setKeyboardEnabled(bool status)
 {
-	this->m_bKeyboardEnabled = status;
+	m_bKeyboardEnabled = status;
 }
 
 void InputHandler::setMouseX(double newX)
 {
-	this->mX = newX;
+	mX = newX;
 }
 
 void InputHandler::setMouseY(double newY)
 {
-	this->mY = newY;
+	mY = newY;
 }
 
 void InputHandler::setDeltaScroll(double newDs)
 {
-	this->dScroll = newDs;
+	dScroll = newDs;
 }
 
 void InputHandler::setClickDelay(double delay)
 {
-	this->m_dClickDelay = delay;
+	m_dClickDelay = delay;
 }
 
 void InputHandler::setPressDelay(double delay)
 {
-	this->m_dPressDelay = delay;
+	m_dPressDelay = delay;
 }
 
-double InputHandler::getDeltaX() const
+double InputHandler::getDeltaX()
 {
-	return this->dX;
+	return dX;
 }
 
-double InputHandler::getDeltaY() const
+double InputHandler::getDeltaY()
 {
-	return this->dY;
+	return dY;
 }
 
 bool InputHandler::isMouseEnabled()
@@ -314,73 +213,30 @@ bool InputHandler::isMouseEnabled()
 
 void InputHandler::setMouseEnabled(bool status)
 {
-	this->m_bMouseEnabled = status;
+	m_bMouseEnabled = status;
 }
 
 double InputHandler::getMouseX()
 {
-	return this->mX;
+	return mX;
 }
 
 double InputHandler::getMouseY()
 {
-	return this->mY;
+	return mY;
 }
 
 double InputHandler::getClickDelay()
 {
-	return this->m_dClickDelay;
+	return m_dClickDelay;
 }
 
 double InputHandler::getPressDelay()
 {
-	return this->m_dPressDelay;
+	return m_dPressDelay;
 }
 
 void InputHandler::resetMousePosition(View * theView)
 {
 	glfwSetCursorPos(theView->getWindow(),theView->getWindowWidth() * 0.5, theView->getWindowHeight() * 0.5);
-}
-
-CharBuffer * InputHandler::getBuffer(int index)
-{
-	if (index < m_charBufferList.size())
-	{
-		return this->m_charBufferList[index];
-	}
-	return nullptr;
-}
-
-void InputHandler::setBufferMode(bool status)
-{
-	this->m_bBufferMode = status;
-}
-
-bool InputHandler::getBufferMode()
-{
-	return this->m_bBufferMode;
-}
-
-void InputHandler::resetBuffer()
-{
-	for (int i = 0; i < m_charBufferList.size(); i++)
-	{
-		m_charBufferList[i]->getBuffer().clear();
-	}
-}
-
-CharBuffer * InputHandler::addNewBuffer()
-{
-	CharBuffer * newBuffer = new CharBuffer();
-	m_charBufferList.push_back(newBuffer);
-	return newBuffer;
-}
-
-void InputHandler::deleteBuffer()
-{
-	if (m_charBufferList.size() > 0)
-	{
-		delete m_charBufferList.back();
-		m_charBufferList.pop_back();
-	}
 }

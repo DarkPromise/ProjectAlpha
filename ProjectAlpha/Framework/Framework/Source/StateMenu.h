@@ -11,7 +11,7 @@ class StateMenu : public State
 public:
 	enum MENU_BUTTONS
 	{
-
+		START_BUTTON,
 	};
 
 	StateMenu(std::string name, View * theView, bool alpha) : State(name, theView)

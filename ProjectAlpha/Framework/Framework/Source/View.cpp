@@ -179,9 +179,6 @@ BOOL View::CreateGLWindow(const char * title, int width, int height, int bits)
 
 	glfwMakeContextCurrent(m_window);
 
-	// For redirecting the callback from InputHandler
-	glfwSetWindowUserPointer(m_window, m_cInputHandler);
-
 	// For setting keyboard callback
 	auto InputHandler_Key_CallBack = [](GLFWwindow * window, int key, int scancode, int action ,int mods)
 	{
@@ -229,9 +226,9 @@ void View::Update(double dt)
 {
 	FPS = (float)(1.f / dt);
 
-	if (m_cInputHandler->IsKeyPressed(GLFW_KEY_F1))
+	if (InputHandler::IsKeyPressed(GLFW_KEY_F1))
 	{
-		if (m_cInputHandler->IsKeyTriggered(GLFW_KEY_F1))
+		if (InputHandler::IsKeyTriggered(GLFW_KEY_F1))
 		{
 			glDisable(GL_CULL_FACE);
 		}
@@ -241,9 +238,9 @@ void View::Update(double dt)
 		}
 	}
 
-	if (m_cInputHandler->IsKeyPressed(GLFW_KEY_F2))
+	if (InputHandler::IsKeyPressed(GLFW_KEY_F2))
 	{
-		if (m_cInputHandler->IsKeyTriggered(GLFW_KEY_F2))
+		if (InputHandler::IsKeyTriggered(GLFW_KEY_F2))
 		{
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		}
@@ -273,16 +270,6 @@ void View::SwapBuffers()
 {
 	glfwSwapBuffers(m_window);
 	glfwPollEvents();
-}
-
-void View::setInputHandler(InputHandler * ptrToHandler)
-{
-	this->m_cInputHandler = ptrToHandler;
-}
-
-InputHandler* View::getInputHandler()
-{
-	return this->m_cInputHandler;
 }
 
 void View::RenderMesh(Mesh *mesh, bool enableLight, bool enableFog)
@@ -456,7 +443,7 @@ void View::RenderGui(Gui * gui, Mesh * textMesh)
 	}
 	else
 	{
-		color = Color(1.f, 0.f, 0.f);
+		color = Color(0.f, 0.f, 0.f);
 	}
 	//Render2DMesh(gui->getMesh(), false, false, 1.f, 1.f, gui->getX(), (m_iWindow_Height - gui->getY())); //Convert to screen coordinates (Bottom Left to Top Right)
 	RenderTextOnScreen(textMesh, gui->getText(), color , gui->getSize(), m_iWindow_Width * gui->getWidthOffset() - (gui->getTextOffset()), m_iWindow_Height * (1.f - gui->getHeightOffset()) - (gui->getSize() * 0.5f));

@@ -266,15 +266,6 @@
     <ClCompile Include="Source\Grid.cpp">
       <Filter>Source Files\2D Grid Map</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Highscore.cpp">
-      <Filter>Source Files\Highscore</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Record.cpp">
-      <Filter>Source Files\Highscore</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Timing.cpp">
-      <Filter>Source Files\Highscore</Filter>
-    </ClCompile>
     <ClCompile Include="Source\EntityGridObject.cpp">
       <Filter>Source Files\Entity</Filter>
     </ClCompile>
@@ -438,15 +429,6 @@
     </ClInclude>
     <ClInclude Include="Source\Grid.h">
       <Filter>Header Files\2D Grid Map</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Highscore.h">
-      <Filter>Header Files\Highscore</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Record.h">
-      <Filter>Header Files\Highscore</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Timing.h">
-      <Filter>Header Files\Highscore</Filter>
     </ClInclude>
     <ClInclude Include="Source\EntityGridObject.h">
       <Filter>Header Files\Entity</Filter>

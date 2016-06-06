@@ -2,6 +2,7 @@
 #define INPUT_HANDLER_H
 
 #pragma warning(disable:4018)
+#pragma warning(disable:4227)
 
 #define PRESS_DELAY 0.25
 
@@ -11,74 +12,84 @@ class View;
 
 #include "CharBuffer.h"
 
+// Singleton InputHandler
+
 class InputHandler
 {
 public:
+	static InputHandler & getInstance()
+	{
+		static InputHandler inputHandler;
+		return inputHandler;
+	}
+private:
 	InputHandler();
-	virtual ~InputHandler();
+public:
+	InputHandler(InputHandler & const) = delete;
+	void operator=(InputHandler & const) = delete;
 
 	// Callbacks
-	void Key_Callback(int key, int scancode, int action, int mods);
-	void Mouse_Callback(int button, int action, int mods);
+	static void Key_Callback(int key, int scancode, int action, int mods);
+	static void Mouse_Callback(int button, int action, int mods);
 
 	// Keyboard
-	void PressKey(int key, bool status = true);
+	static void PressKey(int key, bool status = true);
 
-	bool IsKeyPressed(int key) const;
-	bool IsKeyTriggered(int key) const;
-	bool IsKeyRepeating(int key) const;
+	static bool IsKeyPressed(int key);
+	static bool IsKeyTriggered(int key);
+	static bool IsKeyRepeating(int key);
 
-	bool isKeyboardEnabled();
-	void setKeyboardEnabled(bool status);
+	static bool isKeyboardEnabled();
+	static void setKeyboardEnabled(bool status);
 
 	// Mouse
-	void setMouseX(double newX);
-	void setMouseY(double newY);
-	void setDeltaScroll(double newDs);
+	static void setMouseX(double newX);
+	static void setMouseY(double newY);
+	static void setDeltaScroll(double newDs);
 
-	double getDeltaX() const;
-	double getDeltaY() const;
+	static double getDeltaX();
+	static double getDeltaY();
 
-	double getMouseX();
-	double getMouseY();
+	static double getMouseX();
+	static double getMouseY();
 
-	bool isMouseEnabled();
-	void setMouseEnabled(bool status);
+	static bool isMouseEnabled();
+	static void setMouseEnabled(bool status);
 
-	void resetMousePosition(View * theView);
+	static void resetMousePosition(View * theView);
 
 	// Generic Functions
-	void MouseUpdate(View * theView, double dt);
-	void KeyboardUpdate(View * theView, double dt);
-	void setClickDelay(double delay);
-	double getClickDelay();
-	void setPressDelay(double delay);
-	double getPressDelay();
+	static void MouseUpdate(View * theView, double dt);
+	static void KeyboardUpdate(View * theView, double dt);
+	static void setClickDelay(double delay);
+	static double getClickDelay();
+	static void setPressDelay(double delay);
+	static double getPressDelay();
 
 	// Buffer
-	CharBuffer * addNewBuffer();
+	/*CharBuffer * addNewBuffer();
 	CharBuffer * getBuffer(int index);
 	void deleteBuffer();
 	void setBufferMode(bool status);
 	bool getBufferMode();
-	void resetBuffer();
+	void resetBuffer();*/
 private:
-	bool m_pressedKeys[348];
-	bool m_triggeredKeys[348];
-	bool m_repeatedKeys[348];
+	static bool m_pressedKeys[348];
+	static bool m_triggeredKeys[348];
+	static bool m_repeatedKeys[348];
 
-	double mX, mY;
-	double dX, dY;
-	double last_x, last_y;
-	double dScroll;
+	static double mX, mY;
+	static double dX, dY;
+	static double last_x, last_y;
+	static double dScroll;
 
-	bool m_bMouseEnabled;
-	bool m_bKeyboardEnabled;
-	double m_dClickDelay;
-	double m_dPressDelay;
+	static bool m_bMouseEnabled;
+	static bool m_bKeyboardEnabled;
+	static double m_dClickDelay;
+	static double m_dPressDelay;
 
-	bool m_bBufferMode;
-	std::vector<CharBuffer*> m_charBufferList;
+	/*bool m_bBufferMode;
+	std::vector<CharBuffer*> m_charBufferList;*/
 };
 
 #endif

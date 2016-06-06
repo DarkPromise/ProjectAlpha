@@ -13,7 +13,7 @@ public:
 		this->setWidthOffset(wOffset);
 		
 		// Auto Formatter upon Creation
-		this->setTextOffset(m_sText.length() * 10.f);
+		this->setTextOffset(m_sText.length() * 8.f);
 		this->m_cAABB.setMaxMin(Vector3((m_sText.length() * (m_fFontSize * 0.5f)) * 0.5f, m_fFontSize * 0.5f , 1.f), Vector3(-(m_sText.length() * (m_fFontSize * 0.5f)) * 0.5f, -m_fFontSize * 0.5f, 1.f));
 	}
 

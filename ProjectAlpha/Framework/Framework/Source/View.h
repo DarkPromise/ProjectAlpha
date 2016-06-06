@@ -97,9 +97,6 @@ public:
 	BOOL InitProgramInfo();
 	BOOL InitLightsInfo();
 
-	void setInputHandler(InputHandler * ptrToHandler);
-	InputHandler * getInputHandler();
-
 	void SwapBuffers();
 
 	virtual void Update(double dt);
@@ -127,7 +124,6 @@ public:
 private:
 	GLFWwindow * m_window;
 	Model * theModel;
-	InputHandler * m_cInputHandler;
 
 	bool m_bActive;
 	bool m_bFullScreen;

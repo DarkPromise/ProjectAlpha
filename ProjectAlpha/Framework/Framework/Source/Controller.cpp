@@ -22,11 +22,6 @@ Controller::~Controller()
 		delete m_cStateHandler;
 		m_cStateHandler = NULL;
 	}
-	if(m_cInputHandler)
-	{
-		delete m_cInputHandler;
-		m_cInputHandler = NULL;
-	}
 }
 
 void Controller::RunGameLoop()
@@ -40,10 +35,9 @@ void Controller::RunGameLoop()
 	int height = windowInitScript.get<int>("WindowConfig.height");
 	int width = windowInitScript.get<int>("WindowConfig.width");
 	
-	m_cInputHandler = new InputHandler();
+	InputHandler::getInstance(); // Create InputHandler Singleton
 	m_cStateHandler = new StateHandler();
 	SoundManager::getInstance(); // Create SoundManager Singleton
-	theView->setInputHandler(m_cInputHandler);
 	m_cStateHandler->Init();
 
 	if (theView->CreateGLWindow(title.c_str(), width, height, 32))
@@ -66,8 +60,8 @@ void Controller::RunGameLoop()
 
 		if (m_dAccumulatedTime_ThreadOne > 0.01)
 		{
-			m_cInputHandler->MouseUpdate(theView, m_dAccumulatedTime_ThreadOne);
-			m_cInputHandler->KeyboardUpdate(theView, m_dAccumulatedTime_ThreadOne);
+			InputHandler::MouseUpdate(theView, m_dAccumulatedTime_ThreadOne);
+			InputHandler::KeyboardUpdate(theView, m_dAccumulatedTime_ThreadOne);
 
 			m_cStateHandler->HandleEvents();
 			m_cStateHandler->Update(m_dAccumulatedTime_ThreadOne);
@@ -81,7 +75,7 @@ void Controller::RunGameLoop()
 		m_cStateHandler->Draw();
 
 		// For Quitting Purposes (Temporarily)
-		if (m_cInputHandler->IsKeyPressed(GLFW_KEY_ESCAPE))
+		if (InputHandler::IsKeyPressed(GLFW_KEY_ESCAPE))
 		{
 			LoopTheGame = false;
 		}

@@ -3,6 +3,7 @@
 #include "LoadTGA.h"
 
 #include "StateMenu.h"
+#include "StateGame.h"
 #include "SoundManager.h"
 
 bool StateMenu::runOnce = false;
@@ -23,7 +24,7 @@ void StateMenu::Init()
 	theView->LoadOrthoCamera();
 
 	// Enable Mouse
-	theView->getInputHandler()->setMouseEnabled(true);
+	InputHandler::setMouseEnabled(true);
 
 	// Create Meshes
 	Mesh * newMesh;
@@ -42,24 +43,16 @@ void StateMenu::Init()
 
 	// Create Gui Buttons
 	Gui * newGui;
-	newGui = new GuiButton("Start Button", "Start", 0.5f, 0.5f, 48.f);
+	newGui = new GuiButton("Start Button", "Start", 0.5f, 0.5f, 36.f);
 	newGui->setMesh(MeshBuilder::GenerateBoundingBox("StartBB", newGui->getBoundingBox().Max, newGui->getBoundingBox().Min, Color(0.f, 0.f, 1.f)));
 	m_guiList.push_back(newGui);
 
-	newGui = new GuiButton("Instructions Button", "Instructions", 0.5f, 0.6f, 48.f);
-	newGui->setMesh(MeshBuilder::GenerateBoundingBox("InstructionsBB", newGui->getBoundingBox().Max, newGui->getBoundingBox().Min, Color(0.f, 0.f, 1.f)));
+	newGui = new GuiButton("??? Button", "???", 0.5f, 0.6f, 36.f);
+	newGui->setMesh(MeshBuilder::GenerateBoundingBox("StartBB", newGui->getBoundingBox().Max, newGui->getBoundingBox().Min, Color(0.f, 0.f, 1.f)));
 	m_guiList.push_back(newGui);
 
-	newGui = new GuiButton("Highscores Button", "Highscores", 0.5f, 0.7f, 48.f);
-	newGui->setMesh(MeshBuilder::GenerateBoundingBox("HighscoreBB", newGui->getBoundingBox().Max, newGui->getBoundingBox().Min, Color(0.f, 0.f, 1.f)));
-	m_guiList.push_back(newGui);
-
-	newGui = new GuiButton("Options Button", "Options", 0.5f, 0.8f, 48.f);
-	newGui->setMesh(MeshBuilder::GenerateBoundingBox("OptionsBB", newGui->getBoundingBox().Max, newGui->getBoundingBox().Min, Color(0.f, 0.f, 1.f)));
-	m_guiList.push_back(newGui);
-
-	newGui = new GuiButton("Credits Button", "Credits", 0.5f, 0.9f, 48.f);
-	newGui->setMesh(MeshBuilder::GenerateBoundingBox("CreditsBB", newGui->getBoundingBox().Max, newGui->getBoundingBox().Min, Color(0.f, 0.f, 1.f)));
+	newGui = new GuiButton("Exit Button", "Exit", 0.5f, 0.7f, 36.f);
+	newGui->setMesh(MeshBuilder::GenerateBoundingBox("StartBB", newGui->getBoundingBox().Max, newGui->getBoundingBox().Min, Color(0.f, 0.f, 1.f)));
 	m_guiList.push_back(newGui);
 
 	m_bStartFadeIn = true;
@@ -131,7 +124,7 @@ void StateMenu::Draw(StateHandler * stateHandler)
 void StateMenu::RenderBackground()
 {
 	theView->Render2DMesh(m_meshList[1], false, false, (float)theView->getWindowWidth(), (float)theView->getWindowHeight(), (float)theView->getWindowWidth() * 0.5f, (float)theView->getWindowHeight() * 0.5f);
-	theView->Render2DMesh(m_meshList[2], false, false, 400.f * ((float)theView->getWindowWidth() / theView->getWindowHeight()), 150.f * ((float)theView->getWindowWidth() / theView->getWindowHeight()), (float)theView->getWindowWidth() * 0.5f, (float)theView->getWindowHeight() * 0.7f);
+	theView->Render2DMesh(m_meshList[2], false, false, 400.f * ((float)theView->getWindowWidth() / (float)theView->getWindowHeight()), 150.f * ((float)theView->getWindowWidth() / (float)theView->getWindowHeight()), (float)theView->getWindowWidth() * 0.5f, (float)theView->getWindowHeight() * 0.7f);
 }
 
 void StateMenu::RenderButtons()
@@ -151,22 +144,24 @@ void StateMenu::UpdateSelection(StateHandler * stateHandler)
 			m_guiList[i]->setX(theView->getWindowWidth() * (m_guiList[i]->getWidthOffset()));
 			m_guiList[i]->setY(theView->getWindowHeight() * (m_guiList[i]->getHeightOffset()));
 
-			if (m_guiList[i]->getBoundingBox().Min.x + m_guiList[i]->getX() <= theView->getInputHandler()->getMouseX() &&
-				theView->getInputHandler()->getMouseX() <= m_guiList[i]->getBoundingBox().Max.x + m_guiList[i]->getX() &&
-				m_guiList[i]->getBoundingBox().Min.y + m_guiList[i]->getY() <= theView->getInputHandler()->getMouseY() &&
-				theView->getInputHandler()->getMouseY() <= m_guiList[i]->getBoundingBox().Max.y + m_guiList[i]->getY())
+			if (m_guiList[i]->getBoundingBox().Min.x + m_guiList[i]->getX() <= InputHandler::getMouseX() &&
+				InputHandler::getMouseX() <= m_guiList[i]->getBoundingBox().Max.x + m_guiList[i]->getX() &&
+				m_guiList[i]->getBoundingBox().Min.y + m_guiList[i]->getY() <= InputHandler::getMouseY() &&
+				InputHandler::getMouseY() <= m_guiList[i]->getBoundingBox().Max.y + m_guiList[i]->getY())
 			{
 				m_guiList[i]->highlightButton(true);
 
-				if (theView->getInputHandler()->getClickDelay() <= 0.0)
+				if (InputHandler::getClickDelay() <= 0.0)
 				{
-					if (theView->getInputHandler()->IsKeyPressed(GLFW_MOUSE_BUTTON_1))
+					if (InputHandler::IsKeyPressed(GLFW_MOUSE_BUTTON_1))
 					{
 						switch (MENU_BUTTONS(i))
 						{
-						
+						case START_BUTTON:
+							stateHandler->ChangeState(new StateGame("Game State",this->theView,1));
+							break;
 						}
-						theView->getInputHandler()->setClickDelay(0.2);
+						InputHandler::setClickDelay(0.2);
 					}
 				}
 			}
